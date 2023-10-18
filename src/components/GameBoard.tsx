@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import Token from "./Token";
-const numRows = 6
-const numCols = 7
-const initialTime = 35
-const initialBoard = Array.from({length: numRows}, () => Array.from({length: numCols}, () => 0))
+import { initialBoard, initialTime, } from "../constants/constants";
+import { checkForWin } from "../helpers/main";
 
 const GameBoard = () => {
   const [player, setPlayer] = useState(1);
@@ -18,6 +16,11 @@ const GameBoard = () => {
         break;
       }
     }
+    //TODO: check win or not
+    if(checkForWin(updatedBoard, player)){
+      console.log(`Winner is Player ${player}`);
+    }
+
     //*update board
     setBoard(updatedBoard)
     setPlayer(player === 1 ? 2 : 1);
