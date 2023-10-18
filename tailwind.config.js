@@ -16,8 +16,18 @@ export default {
         boardInnerShadow: "0px 14px 0px 0px rgb(0, 0, 0) inset;",
         boardInnerShadowMd: "0px 10px 0px 0px rgb(0, 0, 0) inset;",
         boardInnerShadowLg: "0px 6px 0px 0px rgb(0, 0, 0) inset;",
+      },
+      gridTemplateAreas: {
+        layout: ['a b', 'game game'],
+        lgLayout: ['a game b']
+      },
+      gridTemplateColumns: {
+        boardLayout: '1fr 600px 1fr'
       }
     },
   },
-  plugins: [],
+  plugins: [
+    // eslint-disable-next-line no-undef
+    require('@savvywombat/tailwindcss-grid-areas')
+  ],
 };
