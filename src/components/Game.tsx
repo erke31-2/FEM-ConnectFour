@@ -1,7 +1,6 @@
 import Score from "./Score";
 import GameBoard from "./GameBoard";
-import { useEffect, useState } from "react";
-import { off, onValue, ref } from "firebase/database";
+import useRealTimeQuery from "../hooks/useRealTimeQuery";
 
 type Players = {
     player1: {
@@ -17,19 +16,11 @@ type Players = {
 }
 
 
-import { database } from "../firebase/firebase";
 const Game = () => {
-  const [players, setPlayers] = useState<Players>();
-  const roomId = "-NhCl81fw0IGtEJXQgju"
-  useEffect(() => {
-    const playerRef = ref(database, `rooms/${roomId}/players`);
-    onValue(playerRef, (snapshot) => {
-      const data: Players = snapshot.val();
-      setPlayers(data);
-      console.log("Listening Players Info");
-    })
-    return () => off(playerRef)
-  }, [roomId])
+  const roomId = "-NhIHewGVZZKzeawo7o1"
+  const path = `rooms/${roomId}/players`
+  const {data: players} = useRealTimeQuery<Players>(path);
+  
   return (
     <section className="max-w-[600px] mx-auto grid grid-areas-layout grid-cols-2 gap-6 lg:max-w-[1020px] lg:grid-cols-boardLayout lg:grid-areas-lgLayout lg:items-center">
      {players &&  <>
