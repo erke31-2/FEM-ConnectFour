@@ -2,8 +2,11 @@ import { push, ref, set } from "firebase/database";
 import { useState } from "react";
 import { database } from "../firebase/firebase";
 import { initialBoard } from "../constants/constants";
+import useGameStore from "../store/store";
 
 const CreateRoom = () => {
+  const setCurrentPlayer = useGameStore((state) => state.setCurrentPlayer)
+  const setGameId = useGameStore((state) => state.setGameId)
   const [roomName, setRoomName] = useState("");
   const [name, setName] = useState("");
 
@@ -26,7 +29,14 @@ const CreateRoom = () => {
         turn: 1,
         winner: ""
       } 
-    })    
+    }).then(() => {
+      setGameId(newRoomRef.key ?? "");
+      setCurrentPlayer({id: 1, name: name ?? "Player 1"});
+    }).catch((err) => {
+      if(err instanceof Error){
+        console.log(err.message);
+      }
+    })
   }
 
 
@@ -54,10 +64,7 @@ const CreateRoom = () => {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <button
-          className="bg-green-600 text-white py-2 rounded-md font-medium hover:opacity-80"
-          type="submit"
-        >
+        <button className="bg-green-600 text-white py-2 rounded-md font-medium hover:opacity-80" type="submit">
           Create Room
         </button>
       </form>

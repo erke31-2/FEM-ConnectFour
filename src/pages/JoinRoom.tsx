@@ -1,18 +1,26 @@
 import { ref, update } from "firebase/database";
 import { useState } from "react";
 import { database } from "../firebase/firebase";
+import useGameStore from "../store/store";
+
 const JoinRoom = () => {
+  const setCurrentPlayer = useGameStore((state) => state.setCurrentPlayer)
   const [roomId, setRoomId] = useState("");
   const [name, setName] = useState("");
-  //-Nh7oJoh-MKzarS24Lvv
 
   const joinRoom = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // update(ref(database, `rooms/${roomId}`))
-    update(ref(database, `rooms/${roomId}/players/player2`), {
+    const dbRef = ref(database, `rooms/${roomId}/players/player2`)
+    update(dbRef, {
           id: 2,
           name: name ?? "Player 2",
           score: 0
+    }).then(() => {
+      setCurrentPlayer({id: 2, name: name ?? "Player 2"})
+    }).catch((err) => {
+      if(err instanceof Error){
+        console.log(err.message);
+      }
     })
   }
 
