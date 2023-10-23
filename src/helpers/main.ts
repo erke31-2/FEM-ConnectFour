@@ -59,3 +59,9 @@ export const checkForWin = (board: Array<number[]>, player: number) => {
 
   return false;
 };
+
+
+export const generateGameId = () => {
+  const id = Math.random().toString(36).substring(2, 8);
+  return id
+}

@@ -6,7 +6,7 @@ interface Player {
 }
 interface GameState {
   currentPlayer: Player | null;
-  gameId: string | null;
+  gameId: string | null
   setCurrentPlayer: (player: Player) => void;
   setGameId: (id: string) => void;
 }
@@ -25,8 +25,8 @@ const useGameStore = create<GameState>()((set) => ({
     set(() => ({ currentPlayer: player }));
   },
   setGameId: (id) => {
-    localStorage.setItem("gameId", id.toString());
-    set(() => ({ gameId: id.toString() }));
+    localStorage.setItem("gameId", JSON.stringify(id));
+    set(() => ({ gameId: id}));
   },
 }));
 

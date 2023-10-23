@@ -16,6 +16,7 @@ export default {
         boardInnerShadow: "0px 14px 0px 0px rgb(0, 0, 0) inset;",
         boardInnerShadowMd: "0px 10px 0px 0px rgb(0, 0, 0) inset;",
         boardInnerShadowLg: "0px 6px 0px 0px rgb(0, 0, 0) inset;",
+        overlayShadow: "0 0 1rem 0 rgba(0, 0, 0, .2)",
       },
       gridTemplateAreas: {
         layout: ['a b', 'game game'],

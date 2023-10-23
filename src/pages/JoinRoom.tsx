@@ -1,32 +1,21 @@
-import { ref, update } from "firebase/database";
 import { useState } from "react";
-import { database } from "../firebase/firebase";
-import useGameStore from "../store/store";
+import useJoinRoomMutation from "../hooks/useJoinRoomMutation";
 
 const JoinRoom = () => {
-  const setCurrentPlayer = useGameStore((state) => state.setCurrentPlayer)
   const [roomId, setRoomId] = useState("");
   const [name, setName] = useState("");
+  const { mutateAsync: joinRoom, isPending } = useJoinRoomMutation();
 
-  const joinRoom = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleJoinRoom = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const dbRef = ref(database, `rooms/${roomId}/players/player2`)
-    update(dbRef, {
-          id: 2,
-          name: name ?? "Player 2",
-          score: 0
-    }).then(() => {
-      setCurrentPlayer({id: 2, name: name ?? "Player 2"})
-    }).catch((err) => {
-      if(err instanceof Error){
-        console.log(err.message);
-      }
-    })
+    const trimRoomId = roomId.trim();
+    joinRoom({roomId: trimRoomId, name: name ?? "Player 2"})
+
   }
 
   return (
-    <main className="w-full max-w-[300px] mx-auto flex flex-col gap-y-8 items-center">
-      <form className="flex flex-col gap-y-3 w-full" onSubmit={joinRoom}>
+    <main className="w-full max-w-[300px] mx-auto flex flex-col gap-y-10 items-center">
+      <form className="flex flex-col gap-y-3 w-full" onSubmit={handleJoinRoom}>
         <input
           type="text"
           placeholder="Enter a Room Id"
@@ -49,6 +38,7 @@ const JoinRoom = () => {
         <button
           className="bg-green-600 text-white py-2 rounded-md font-medium hover:opacity-80"
           type="submit"
+          disabled={isPending}
         >
           Join Room
         </button>
