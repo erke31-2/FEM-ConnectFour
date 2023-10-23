@@ -1,28 +1,16 @@
-import useRealTimeQuery from "../hooks/useRealTimeQuery";
-import useGameStore from "../store/store";
+import { PlayersInfo } from "./Game";
 import Score from "./Score";
 
-export type PlayerInfo = {
-  id: number,
-  name: string;
-  score: number
-}
-type PlayersInfo = {
-  player1: PlayerInfo
-  player2: PlayerInfo
-};
 
-const ScoreBoard = () => {
-  const roomId = useGameStore((state) => state.gameId);
-  const path = `rooms/${roomId}/players`;
-  const { data: players } = useRealTimeQuery<PlayersInfo>(path);
+
+const ScoreBoard: React.FC<PlayersInfo> = ({player1, player2}) => {
   return (
     <>
-      {players?.player1 && (
-        <Score info={players.player1}/>
+      {player1 && (
+        <Score info={player1}/>
       )}
-      {players?.player2 && (
-        <Score info={players.player2} />
+      {player2 && (
+        <Score info={player2} />
       )}
     </>
   );

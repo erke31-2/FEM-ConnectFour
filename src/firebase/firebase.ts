@@ -5,8 +5,7 @@ import { generateGameId } from "../helpers/main";
 const firebaseConfig = {
   apiKey: "AIzaSyCtSOWb6wnn3rZJrWejBGmVfCSsS7lJlB4",
   authDomain: "first-firebase-64573.firebaseapp.com",
-  databaseURL:
-    "https://first-firebase-64573-default-rtdb.asia-southeast1.firebasedatabase.app",
+  databaseURL: "https://first-firebase-64573-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "first-firebase-64573",
   storageBucket: "first-firebase-64573.appspot.com",
   messagingSenderId: "1032428004345",

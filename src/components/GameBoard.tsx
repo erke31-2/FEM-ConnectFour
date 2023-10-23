@@ -10,14 +10,16 @@ type Game = {
   turn: number,
   winner: string
 }
+interface GameBoardProps{
+  updatePlayerScore: (key: 'player1' | 'player2') => void
+}
 
-
-const GameBoard = () => {
+const GameBoard: React.FC<GameBoardProps> = ({updatePlayerScore}) => {
   const queryClient = useQueryClient()
   const roomId = useGameStore(state =>  state.gameId);
   const currentPlayer = useGameStore(state => state.currentPlayer)
-  const path = `rooms/${roomId}/game`
-  const {data} = useRealTimeQuery<Game>(path);
+  const gamePath = `rooms/${roomId}/game`
+  const {data} = useRealTimeQuery<Game>(gamePath);
   const updateBoard = (colIndex: number, player: number) => {
     if(data && data.turn === currentPlayer?.id){
       const updatedBoard = [...data.board];
@@ -35,6 +37,8 @@ const GameBoard = () => {
           turn: 0,
           winner: `Player ${player}`
         }
+        const key = player === 1 ? "player1" : "player2"
+        updatePlayerScore(key)
       }else{
         updatedValue = {
           board: updatedBoard,
@@ -43,8 +47,8 @@ const GameBoard = () => {
         }
       }
 
-      queryClient.setQueryData([path], updatedValue)
-      updateRealTimeData({path, updatedValue })
+      queryClient.setQueryData([gamePath], updatedValue)
+      updateRealTimeData({path: gamePath, updatedValue })
     }
     return
   };
