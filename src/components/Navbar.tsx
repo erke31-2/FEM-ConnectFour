@@ -1,19 +1,29 @@
+import { Link } from "react-router-dom";
+import Logo from "./Logo";
+import Rules from "./Rules";
+
 const Navbar = () => {
+  const currentUrl = window.location.href;
+  const isGamePage = currentUrl.slice(currentUrl.lastIndexOf("/") + 1) === "play";
   return (
-    <nav className="w-[90%] max-w-[1020px] mx-auto text-white flex items-center justify-between">
-      <button className="bg-secondaryBg uppercase font-semibold py-[10px] w-[120px] rounded-full">
-        Menu
-      </button>
-      <div className="w-[40px] h-[40px] grid grid-cols-2 gap-1">
-        <div className="`w-full aspect-square bg-p1Bg rounded-full shadow-tokenShadow border-2 border-black" />
-        <div className="`w-full aspect-square bg-p2Bg rounded-full shadow-tokenShadow border-2 border-black" />
-        <div className="`w-full aspect-square bg-p2Bg rounded-full shadow-tokenShadow border-2 border-black" />
-        <div className="`w-full aspect-square bg-p1Bg rounded-full shadow-tokenShadow border-2 border-black" />
-      </div>
-      <button className="bg-secondaryBg uppercase font-semibold py-[10px] w-[120px] rounded-full">
-        Restart
-      </button>
-    </nav>
+    <>
+      <nav className="w-[95%] max-w-[1020px] mx-auto text-white flex items-center justify-between">
+        <Link
+          className="bg-secondaryBg text-center uppercase font-semibold py-[10px] w-[135px] rounded-full"
+          to={"/"}
+        >
+          Menu
+        </Link>
+        <Logo />
+        {isGamePage ? (
+          <button className="bg-secondaryBg uppercase font-semibold py-[10px] w-[135px] rounded-full">
+            Restart
+          </button>
+        ) : (
+          <Rules />
+        )}
+      </nav>
+    </>
   );
 };
 export default Navbar;

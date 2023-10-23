@@ -72,38 +72,18 @@ const GameBoard: React.FC<GameBoardProps> = ({updatePlayerScore}) => {
           )
         )}
         {data?.winner ? (
-         <div className={`${data?.winner === "Player 1" ? "bg-p1Bg" : "bg-p2Bg"} absolute text-white w-[250px] py-6 px-2 text-center flex flex-col items-center gap-y-1 rounded-2xl border-2 border-black shadow-boardShadow -bottom-[55px] left-0 right-0 mx-auto`}>
-           <p className="uppercase font-bold">{data.winner} win this game!</p>
-         </div>
+         <article className={`${data?.winner === "Player 1" ? "bg-p1Bg" : "bg-p2Bg"} absolute text-white w-[250px] py-5 px-2 text-center rounded-2xl border-2 border-black shadow-boardShadow -bottom-[130px] left-0 right-0 mx-auto uppercase flex flex-col gap-y-3`}>
+           <h2 className="font-bold">{data.winner}</h2>
+           <span className="text-4xl font-bold">Wins</span>
+           <button className="uppercase bg-secondaryBg px-5 py-1 rounded-full w-fit mx-auto font-semibold">Play Again</button>
+         </article>
         ): (
-        <div className={`${data?.turn === 1 ? "bg-p1Bg" : "bg-p2Bg"} absolute text-white w-[230px] py-6 flex flex-col items-center gap-y-1 rounded-2xl border-2 border-black shadow-boardShadow -bottom-[55px] left-0 right-0 mx-auto`}>
+        <article className={`${data?.turn === 1 ? "bg-p1Bg" : "bg-p2Bg"} absolute text-white w-[230px] py-6 flex flex-col items-center gap-y-1 rounded-2xl border-2 border-black shadow-boardShadow -bottom-[55px] left-0 right-0 mx-auto`}>
           <p className="uppercase font-bold">Player {data?.turn}&apos; turn</p>
-        </div>
+        </article>
         )}
       </div>
     </>
   );
 };
 export default GameBoard;
-
-
-// {data?.winner && (
-//   <>
-//     <div className="fixed inset-0 bg-gray-800/50 w-full min-h-screen" />
-//     <article className="fixed bg-black text-secondaryBg top-[200px] w-[80%] max-w-[450px] p-8 rounded-xl flex flex-col gap-y-6 left-[50%] -translate-x-1/2 items-center z-50">
-//       <h2 className="text-lg font-semibold">{data.winner} win this Game!</h2>
-//       <div className="flex flex-col gap-y-1">
-//         <span>Player 1&apos;s score: 23</span>
-//         <span>Player 2&apos;s score: 12</span>
-//       </div>
-//       <div className="flex flex-col gap-y-4">
-//         <button className="bg-primaryBg text-white px-8 py-1 rounded-sm">
-//           Go To Home Page
-//         </button>
-//         {/* <button className="bg-white py-1 px-8 rounded-sm" onClick={()=>setWinner("")}>
-//           Play Again
-//         </button> */}
-//       </div>
-//     </article>
-//   </>
-// )}

@@ -58,13 +58,18 @@ export const createRoom = async ({roomName, name}: CreateRoomParams) => {
     },
     roomFull: false 
   }
-  await set(newRoomRef, roomData);
+  await set(newRoomRef, roomData).catch((err) => {
+    if(err instanceof Error) throw new Error("Failed to Create Room!")
+  });
   return roomId
 }
 
 export const joinRoom = async ({roomId, name}: {roomId: string, name: string}) => {
   const roomExists = await checkRoomExists(roomId);
   if(!roomExists) throw new Error(`Room with ID ${roomId} does not exist!`);
+
+  const roomFull = await checkRoomFull(roomId);
+  if(roomFull) throw new Error(`Room with Id ${roomId} is already full with players!`)
   
   const roomRef = ref(database, `rooms/${roomId}`);
   const updatedRoomData = {
@@ -83,6 +88,12 @@ export const checkRoomExists = async (roomId: string) => {
   const roomRef = ref(database, `rooms/${roomId}`);
   const roomSnapShot = await get(roomRef);
   return roomSnapShot.exists()
+}
+
+export const checkRoomFull = async (roomId: string) => {
+  const roomRef = ref(database, `rooms/${roomId}/roomFull`);
+  const roomFullSnapShot = await get(roomRef);
+  return roomFullSnapShot.val() as boolean
 }
 
 

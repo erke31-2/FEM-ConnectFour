@@ -17,7 +17,7 @@ const CreateRoom = () => {
         <input
           type="text"
           placeholder="Type a Room Name"
-          className="py-2 px-4 rounded-md outline-none focus:outline-white"
+          className="py-2 px-4 rounded-md outline-none border border-primaryBg focus:outline-white"
           autoComplete="on"
           id="roomName"
           min={4}
@@ -29,13 +29,13 @@ const CreateRoom = () => {
         <input
           type="text"
           placeholder="Enter Your Name (Optional)"
-          className="py-2 px-4 rounded-md outline-none focus:outline-white"
+          className="py-2 px-4 rounded-md outline-none border border-primaryBg focus:outline-white" 
           autoComplete="on"
           id="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <button className="bg-green-600 text-white py-2 rounded-md font-medium hover:opacity-80" type="submit" disabled={isPending}>
+        <button className="bg-green-600 text-white py-2 rounded-md font-medium hover:opacity-80 shadow-tokenShadow" type="submit" disabled={isPending}>
           Create Room
         </button>
       </form>

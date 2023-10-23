@@ -10,7 +10,6 @@ const JoinRoom = () => {
     e.preventDefault();
     const trimRoomId = roomId.trim();
     joinRoom({roomId: trimRoomId, name: name ?? "Player 2"})
-
   }
 
   return (
@@ -19,7 +18,7 @@ const JoinRoom = () => {
         <input
           type="text"
           placeholder="Enter a Room Id"
-          className="py-2 px-4 rounded-md outline-none focus:outline-white"
+          className="py-2 px-4 rounded-md outline-none border border-primaryBg focus:outline-white" 
           autoComplete="on"
           id="roomId"
           required
@@ -29,7 +28,7 @@ const JoinRoom = () => {
           <input
           type="text"
           placeholder="Enter Your Name (Optional)"
-          className="py-2 px-4 rounded-md outline-none focus:outline-white"
+          className="py-2 px-4 rounded-md outline-none border border-primaryBg focus:outline-white"
           autoComplete="on"
           id="name"
           value={name}
