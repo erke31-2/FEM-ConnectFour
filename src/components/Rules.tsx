@@ -8,7 +8,7 @@ const Rules = () => {
         Game Rules
       </button>
       {showRules && 
-      <div className="fixed inset-0 flex justify-center items-center w-full h-screen">
+      <div className="fixed inset-0 flex justify-center items-center w-full h-screen z-50 bg-white/20">
         <article className="bg-white text-black w-[95%] max-w-[500px] p-7 rounded-xl shadow-boardShadow border-4 border-black flex flex-col gap-y-5 relative">
           <h2 className="text-center text-2xl font-semibold">RULES</h2>
           <div>

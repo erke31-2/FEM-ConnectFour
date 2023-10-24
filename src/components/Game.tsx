@@ -4,7 +4,7 @@ import useRealTimeQuery from "../hooks/useRealTimeQuery";
 import useGameStore from "../store/store";
 import { updateRealTimeData } from "../firebase/firebase";
 
-type PlayerInfo = {
+export type PlayerInfo = {
   id: number,
   name: string;
   score: number
@@ -26,11 +26,10 @@ const Game = () => {
     if(winnerInfo){
       updateRealTimeData({path: scorePath, updatedValue: winnerInfo.score + 1})
     }
-  }
-  
+  }  
 
   return (
-    <section className="max-w-[600px] mx-auto grid grid-areas-layout grid-cols-2 gap-6 lg:max-w-[1020px] lg:grid-cols-boardLayout lg:grid-areas-lgLayout lg:items-center">
+    <section className="max-w-[600px] mx-auto grid grid-areas-layout grid-cols-2 gap-4 lg:max-w-[1020px] lg:grid-cols-boardLayout lg:grid-areas-lgLayout lg:items-center">
       {players && <ScoreBoard player1={players?.player1} player2={players?.player2}/>}
       <GameBoard updatePlayerScore={updatePlayerScore}/>
     </section>

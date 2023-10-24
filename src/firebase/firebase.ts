@@ -44,6 +44,7 @@ export const createRoom = async ({roomName, name}: CreateRoomParams) => {
   const newRoomRef = ref(database, `rooms/${roomId}`);
   const roomData = {
     roomName,
+    roomFull: false, 
     players: {
       player1: {
         id: 1,
@@ -56,7 +57,10 @@ export const createRoom = async ({roomName, name}: CreateRoomParams) => {
       turn: 1,
       winner: ""
     },
-    roomFull: false 
+    newGame: {
+      askedBy: 0,
+    }
+    
   }
   await set(newRoomRef, roomData).catch((err) => {
     if(err instanceof Error) throw new Error("Failed to Create Room!")
@@ -96,6 +100,17 @@ export const checkRoomFull = async (roomId: string) => {
   return roomFullSnapShot.val() as boolean
 }
 
+
+
+export const restartNewGame = (roomId: string) => {
+  const gamePath = `rooms/${roomId}/game`;
+  const resetGameData = {
+  board: initialBoard,
+  turn: 1,
+  winner: "",
+  };
+  updateRealTimeData({ path: gamePath, updatedValue: resetGameData });
+};
 
 export const updateRealTimeData = ({path, updatedValue}: {path: string, updatedValue: unknown}) => {
   const databaseRef = ref(database, path);

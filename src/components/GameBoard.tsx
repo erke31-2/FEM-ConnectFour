@@ -4,6 +4,7 @@ import { updateRealTimeData } from "../firebase/firebase";
 import { useQueryClient } from "@tanstack/react-query";
 import useGameStore from "../store/store";
 import { checkForWin } from "../helpers/main";
+import WinnerAndTurn from "./WinnerAndTurn";
 
 type Game = {
   board: Array<number[]>,
@@ -19,7 +20,7 @@ const GameBoard: React.FC<GameBoardProps> = ({updatePlayerScore}) => {
   const roomId = useGameStore(state =>  state.gameId);
   const currentPlayer = useGameStore(state => state.currentPlayer)
   const gamePath = `rooms/${roomId}/game`
-  const {data} = useRealTimeQuery<Game>(gamePath);
+  const { data } = useRealTimeQuery<Game>(gamePath);
   const updateBoard = (colIndex: number, player: number) => {
     if(data && data.turn === currentPlayer?.id){
       const updatedBoard = [...data.board];
@@ -42,7 +43,7 @@ const GameBoard: React.FC<GameBoardProps> = ({updatePlayerScore}) => {
       }else{
         updatedValue = {
           board: updatedBoard,
-          turn: data.turn === 1 ? 2 : 1,
+          turn: player === 1 ? 2 : 1,
           winner: ""
         }
       }
@@ -55,7 +56,7 @@ const GameBoard: React.FC<GameBoardProps> = ({updatePlayerScore}) => {
 
   return (
     <>
-      <div className="grid-in-game w-full mx-auto bg-white grid grid-cols-7 gap-2 px-2 pt-2 pb-10 rounded-2xl border-[3px] border-black shadow-boardShadow relative mb-16">
+      <div className="grid-in-game w-full mx-auto bg-white grid grid-cols-7 gap-2 px-2 pt-2 pb-10 rounded-2xl border-[3px] border-black shadow-boardShadow relative mb-16 mt-6">
         {data?.board.map((row, rowIndex) =>
           row.map((slot, colIndex) =>
             slot === 1 ? (
@@ -71,17 +72,7 @@ const GameBoard: React.FC<GameBoardProps> = ({updatePlayerScore}) => {
             )
           )
         )}
-        {data?.winner ? (
-         <article className={`${data?.winner === "Player 1" ? "bg-p1Bg" : "bg-p2Bg"} absolute text-white w-[250px] py-5 px-2 text-center rounded-2xl border-2 border-black shadow-boardShadow -bottom-[130px] left-0 right-0 mx-auto uppercase flex flex-col gap-y-3`}>
-           <h2 className="font-bold">{data.winner}</h2>
-           <span className="text-4xl font-bold">Wins</span>
-           <button className="uppercase bg-secondaryBg px-5 py-1 rounded-full w-fit mx-auto font-semibold">Play Again</button>
-         </article>
-        ): (
-        <article className={`${data?.turn === 1 ? "bg-p1Bg" : "bg-p2Bg"} absolute text-white w-[230px] py-6 flex flex-col items-center gap-y-1 rounded-2xl border-2 border-black shadow-boardShadow -bottom-[55px] left-0 right-0 mx-auto`}>
-          <p className="uppercase font-bold">Player {data?.turn}&apos; turn</p>
-        </article>
-        )}
+      <WinnerAndTurn winner={data?.winner} turn={data?.turn}/>
       </div>
     </>
   );
