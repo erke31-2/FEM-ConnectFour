@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { checkRoomExists } from "../firebase/firebase";
+import { checkRoomExists } from "../firebase/service";
 import useGameStore from "../store/store";
 import FullScreenLoading from "../components/FullScreenLoading";
 import Game from "../components/Game";

@@ -1,7 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
-import { createRoom, CreateRoomParams } from "../firebase/firebase";
+import { createRoom, CreateRoomParams } from "../firebase/service";
 import useGameStore from "../store/store";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const useCreateRoomMutation = () => {
   const setCurrentPlayer = useGameStore((state) => state.setCurrentPlayer);
@@ -17,7 +18,7 @@ const useCreateRoomMutation = () => {
       navigate("/play");
     },
     onError: (err) => {
-        console.log(err.message);
+        toast.error(err.message)
     }
   });
 };

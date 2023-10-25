@@ -1,13 +1,13 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { realTimeData } from "../firebase/firebase";
+import { subscribeRealTimeData } from "../firebase/service";
 
 
 const useRealTimeQuery = <Data>(firebasePath: string) => {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    const unsubscribe = realTimeData({
+    const unsubscribe = subscribeRealTimeData({
       path: firebasePath,
       callback: (value) => {
         queryClient.setQueryData([firebasePath], value);

@@ -1,64 +1,31 @@
 import Token from "./Token";
 import useRealTimeQuery from "../hooks/useRealTimeQuery";
-import { updateRealTimeData } from "../firebase/firebase";
-import { useQueryClient } from "@tanstack/react-query";
 import useGameStore from "../store/store";
-import { checkForFullBoard, checkForWin } from "../helpers/main";
 import WinnerAndTurn from "./WinnerAndTurn";
-import { PlayersInfo } from "./ScoreBoard";
+import useUpdateGameBoardMutation from "../hooks/useUpdateGameBoardMutation";
 
-type Game = {
+export type Game = {
   board: Array<number[]>,
   turn: number,
   winner?: number
 }
 
-
 const GameBoard: React.FC<{roomId: string}> = ({roomId}) => {
-  const queryClient = useQueryClient()
-  const playerInfoPath = `rooms/${roomId}/players`;
-  const { data: playersInfo } = useRealTimeQuery<PlayersInfo>(playerInfoPath);
+  const {mutate: updateGameBoard, isPending} = useUpdateGameBoardMutation()
   const currentPlayer = useGameStore(state => state.currentPlayer)
   const gamePath = `rooms/${roomId}/game`
   const { data } = useRealTimeQuery<Game>(gamePath);
   const updateBoard = (colIndex: number, player: number) => {
-    if(data && data.turn === currentPlayer?.id){
+    if(data && data.turn === currentPlayer?.id && !isPending){
       const updatedBoard = [...data.board];
-      //?filter through the last row(length-1) and check given col
+      //TODO: make sure token is in the lowest row possible
       for (let row = updatedBoard.length - 1; row >= 0; row--) {
         if (updatedBoard[row][colIndex] === 0) {
           updatedBoard[row][colIndex] = player;
           break;
         }
       }
-      const isWinner = checkForWin(updatedBoard, player);
-      const isFullBoard = checkForFullBoard(updatedBoard)
-      let updatedValue;
-      if(isWinner){
-        const key = player === 1 ? 1 : 2
-        const winnerInfo = playersInfo?.[key]
-        updatedValue  = {
-          board: updatedBoard,
-          turn: 0,
-          winner: winnerInfo?.id
-        } 
-        const scorePath = `rooms/${roomId}/players/${player}/score`;
-        updateRealTimeData({path: scorePath, updatedValue: winnerInfo!.score + 1})
-      }else if(isFullBoard && !isWinner){
-        updatedValue = {
-          board: updatedBoard,
-          turn: 0,
-          winner: 0
-        }
-      }else{
-        updatedValue = {
-          board: updatedBoard,
-          turn: player === 1 ? 2 : 1,
-        }
-      }
-
-      queryClient.setQueryData([gamePath], updatedValue)
-      updateRealTimeData({path: gamePath, updatedValue })
+      updateGameBoard({updatedBoard, player})
     }
     return
   };
@@ -87,3 +54,33 @@ const GameBoard: React.FC<{roomId: string}> = ({roomId}) => {
   );
 };
 export default GameBoard;
+
+
+// const isWinner = checkForWin(updatedBoard, player);
+// const isFullBoard = checkForFullBoard(updatedBoard)
+// let updatedValue;
+// if(isWinner){
+//   const key = player === 1 ? 1 : 2
+//   const winnerInfo = playersInfo?.[key]
+//   updatedValue  = {
+//     board: updatedBoard,
+//     turn: 0,
+//     winner: winnerInfo?.id
+//   } 
+//   const scorePath = `rooms/${roomId}/players/${player}/score`;
+//   updateRealTimeData({path: scorePath, updatedValue: winnerInfo!.score + 1})
+// }else if(isFullBoard && !isWinner){
+//   updatedValue = {
+//     board: updatedBoard,
+//     turn: 0,
+//     winner: 0
+//   }
+// }else{
+//   updatedValue = {
+//     board: updatedBoard,
+//     turn: player === 1 ? 2 : 1,
+//   }
+// }
+
+// queryClient.setQueryData([gamePath], updatedValue)
+// updateRealTimeData({path: gamePath, updatedValue })

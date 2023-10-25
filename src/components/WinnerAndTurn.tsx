@@ -1,4 +1,4 @@
-import { restartNewGame, updateRealTimeData } from "../firebase/firebase";
+import { restartNewGame, updateRealTimeData } from "../firebase/service";
 import useRealTimeQuery from "../hooks/useRealTimeQuery";
 import useGameStore from "../store/store";
 import Logo from "./Logo";
@@ -34,15 +34,14 @@ const WinnerAndTurn: React.FC<WinnerAndTurnProps> = ({ winner, turn }) => {
 
   return (
     <>
-      {winner ? (
-          <article className={`${ winner === 0 ? "bg-white" : winner === 1 ? "bg-p1Bg" : "bg-p2Bg"} absolute text-white w-[250px] py-3 px-2 text-center rounded-2xl border-2 border-black shadow-boardShadow -bottom-[130px] left-0 right-0 mx-auto uppercase flex flex-col gap-y-3`}>
+      {winner !== undefined ? (
+          <article className={`${ winner === 0 ? "bg-gray-700 -bottom-[100px]" : winner === 1 ? "bg-p1Bg -bottom-[130px]" : "bg-p2Bg -bottom-[130px]"} absolute text-white w-[250px] py-3 px-2 text-center rounded-2xl border-2 border-black shadow-boardShadow  left-0 right-0 mx-auto uppercase flex flex-col gap-y-3`}>
             {winner !== 0 && <h2 className="font-bold text-lg">Player {winner}</h2>}
             <span className="text-5xl font-medium">{winner === 0 ? "Tie" : "Wins"}</span>
             <button className="uppercase bg-secondaryBg px-5 py-[6px] rounded-full w-fit mx-auto font-semibold hover:bg-primaryBg" onClick={askForNewGame}>
               Play Again
             </button>
           </article>
-        
       ) : (
         <article className={`${ turn === 1 ? "bg-p1Bg" : "bg-p2Bg" } absolute text-white w-[230px] py-6 flex flex-col items-center gap-y-1 rounded-2xl border-2 border-black shadow-boardShadow -bottom-[55px] left-0 right-0 mx-auto`}>
           <p className="uppercase font-bold">
@@ -55,13 +54,13 @@ const WinnerAndTurn: React.FC<WinnerAndTurnProps> = ({ winner, turn }) => {
           <article className="bg-white p-6 rounded-lg flex flex-col gap-y-6 items-center shadow-boardShadow border-4 border-black">
             <Logo />
             <h2 className="text-xl font-medium">
-              Do you want to play one more game?
+              Player {newGame?.askedBy} want to play one more game.
             </h2>
             <div className="w-full flex justify-between px-1">
-              <button className="bg-red-500 text-white px-8 py-2 rounded-sm" onClick={() => handleNewGameAsk("No")}>
-                No
+              <button className="bg-red-500 text-white px-4 py-2 rounded-md" onClick={() => handleNewGameAsk("No")}>
+                No, Cancel it
               </button>
-              <button className="bg-primaryBg text-white px-4 py-2 rounded-sm" onClick={() => handleNewGameAsk("Yes")}>
+              <button className="bg-primaryBg text-white px-4 py-2 rounded-md" onClick={() => handleNewGameAsk("Yes")}>
                 Play One More
               </button>
             </div>

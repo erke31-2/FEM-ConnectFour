@@ -9,7 +9,7 @@ const OverlayBlur = () => {
         <p className="text-lg font-medium text-center">
           Share the Room Id below with your friend to play.
         </p>
-        <span className="border-2 border-white py-2 px-6 tracking-wide rounded-md font-bold">
+        <span className="border-2 border-white text-center py-2 px-4 tracking-wide rounded-md font-bold">
           {roomId}
         </span>
       </article>
