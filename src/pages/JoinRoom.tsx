@@ -9,7 +9,7 @@ const JoinRoom = () => {
   const handleJoinRoom = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const trimRoomId = roomId.trim();
-    joinRoom({roomId: trimRoomId, name: name ?? "Player 2"})
+    joinRoom({roomId: trimRoomId, name})
   }
 
   return (
@@ -31,6 +31,9 @@ const JoinRoom = () => {
           className="py-2 px-4 rounded-md outline-none border border-primaryBg focus:outline-white"
           autoComplete="on"
           id="name"
+          min={3}
+          max={8}
+          required
           value={name}
           onChange={(e) => setName(e.target.value)}
         />

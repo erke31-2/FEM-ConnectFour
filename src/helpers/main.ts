@@ -60,6 +60,16 @@ export const checkForWin = (board: Array<number[]>, player: number) => {
   return false;
 };
 
+export const checkForFullBoard = (board: Array<number[]>) => {
+  for(let row = 0; row < numRows; row++){
+    for(let col = 0; col < numCols; col++){
+      if(board[row][col] === 0) return false
+    }
+  }
+  return true
+}
+
+
 
 export const generateGameId = () => {
   const id = Math.random().toString(36).substring(2, 8);

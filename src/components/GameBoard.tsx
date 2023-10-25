@@ -3,21 +3,21 @@ import useRealTimeQuery from "../hooks/useRealTimeQuery";
 import { updateRealTimeData } from "../firebase/firebase";
 import { useQueryClient } from "@tanstack/react-query";
 import useGameStore from "../store/store";
-import { checkForWin } from "../helpers/main";
+import { checkForFullBoard, checkForWin } from "../helpers/main";
 import WinnerAndTurn from "./WinnerAndTurn";
+import { PlayersInfo } from "./ScoreBoard";
 
 type Game = {
   board: Array<number[]>,
   turn: number,
-  winner: string
-}
-interface GameBoardProps{
-  updatePlayerScore: (key: 'player1' | 'player2') => void
+  winner?: number
 }
 
-const GameBoard: React.FC<GameBoardProps> = ({updatePlayerScore}) => {
+
+const GameBoard: React.FC<{roomId: string}> = ({roomId}) => {
   const queryClient = useQueryClient()
-  const roomId = useGameStore(state =>  state.gameId);
+  const playerInfoPath = `rooms/${roomId}/players`;
+  const { data: playersInfo } = useRealTimeQuery<PlayersInfo>(playerInfoPath);
   const currentPlayer = useGameStore(state => state.currentPlayer)
   const gamePath = `rooms/${roomId}/game`
   const { data } = useRealTimeQuery<Game>(gamePath);
@@ -31,20 +31,29 @@ const GameBoard: React.FC<GameBoardProps> = ({updatePlayerScore}) => {
           break;
         }
       }
+      const isWinner = checkForWin(updatedBoard, player);
+      const isFullBoard = checkForFullBoard(updatedBoard)
       let updatedValue;
-      if(checkForWin(updatedBoard, player)){
+      if(isWinner){
+        const key = player === 1 ? 1 : 2
+        const winnerInfo = playersInfo?.[key]
         updatedValue  = {
           board: updatedBoard,
           turn: 0,
-          winner: `Player ${player}`
+          winner: winnerInfo?.id
+        } 
+        const scorePath = `rooms/${roomId}/players/${player}/score`;
+        updateRealTimeData({path: scorePath, updatedValue: winnerInfo!.score + 1})
+      }else if(isFullBoard && !isWinner){
+        updatedValue = {
+          board: updatedBoard,
+          turn: 0,
+          winner: 0
         }
-        const key = player === 1 ? "player1" : "player2"
-        updatePlayerScore(key)
       }else{
         updatedValue = {
           board: updatedBoard,
           turn: player === 1 ? 2 : 1,
-          winner: ""
         }
       }
 

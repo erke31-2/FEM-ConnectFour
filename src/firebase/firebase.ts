@@ -46,16 +46,15 @@ export const createRoom = async ({roomName, name}: CreateRoomParams) => {
     roomName,
     roomFull: false, 
     players: {
-      player1: {
+      1: {
         id: 1,
         name: name,
         score: 0
-      }, 
+      },  
     },
     game: {
       board: initialBoard,
       turn: 1,
-      winner: ""
     },
     newGame: {
       askedBy: 0,
@@ -77,7 +76,7 @@ export const joinRoom = async ({roomId, name}: {roomId: string, name: string}) =
   
   const roomRef = ref(database, `rooms/${roomId}`);
   const updatedRoomData = {
-    ['players/player2']: {
+    ['players/2']: {
       id: 2,
       name,
       score: 0
@@ -101,13 +100,11 @@ export const checkRoomFull = async (roomId: string) => {
 }
 
 
-
 export const restartNewGame = (roomId: string) => {
   const gamePath = `rooms/${roomId}/game`;
   const resetGameData = {
   board: initialBoard,
   turn: 1,
-  winner: "",
   };
   updateRealTimeData({ path: gamePath, updatedValue: resetGameData });
 };

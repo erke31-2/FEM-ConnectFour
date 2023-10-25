@@ -2,13 +2,13 @@ import { useState } from "react";
 import useCreateRoomMutation from "../hooks/useCreateRoomMutation";
 
 const CreateRoom = () => {
-  const { mutateAsync: createRoom, isPending } = useCreateRoomMutation();
+  const { mutateAsync: creatingRoom, isPending } = useCreateRoomMutation();
   const [roomName, setRoomName] = useState("");
   const [name, setName] = useState("");
 
   const handleCreateRoom = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    createRoom({ roomName, name: name ?? "Player 1"})
+    creatingRoom({ roomName, name})
   }
 
   return (
@@ -32,6 +32,9 @@ const CreateRoom = () => {
           className="py-2 px-4 rounded-md outline-none border border-primaryBg focus:outline-white" 
           autoComplete="on"
           id="name"
+          min={3}
+          max={8}
+          required
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
