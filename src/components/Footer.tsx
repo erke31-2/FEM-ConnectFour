@@ -10,7 +10,7 @@ const Footer = () => {
         </span>
       </p>
       <p>
-        Design by {" "}
+        Designed by {" "}
         <span className="font-semibold">
           <a href="https://www.frontendmentor.io/challenges" target="_blank">
             Frontend Mentor

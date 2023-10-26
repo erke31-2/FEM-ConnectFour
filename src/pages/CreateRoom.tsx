@@ -38,9 +38,9 @@ const CreateRoom = () => {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <button className="bg-green-600 text-white py-2 rounded-md font-medium hover:opacity-80 shadow-tokenShadow" type="submit" disabled={isPending}>
-          Create Room
-        </button>
+        <button className="bg-green-600 text-white h-10 rounded-md font-medium hover:opacity-80 disabled:cursor-not-allowed disabled:hover:opacity-100" type="submit" disabled={isPending}>
+          {isPending ? <div className="w-5 h-5 rounded-full animate-spin border-2 border-b-primaryBg  mx-auto"/> : "Create Room"}
+        </button> 
       </form>
       <label htmlFor="roomName" className="text-sm font-medium text-sky-100">
         Type a Room Name to generate a Room Id!

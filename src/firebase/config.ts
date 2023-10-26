@@ -1,15 +1,15 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase} from "firebase/database";
+import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCtSOWb6wnn3rZJrWejBGmVfCSsS7lJlB4",
-  authDomain: "first-firebase-64573.firebaseapp.com",
-  databaseURL: "https://first-firebase-64573-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "first-firebase-64573",
-  storageBucket: "first-firebase-64573.appspot.com",
-  messagingSenderId: "1032428004345",
-  appId: "1:1032428004345:web:b2665d8ad1b8a190b59328",
-  measurementId: "G-T1LSBN2NQ0",
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  databaseURL: import.meta.env.VITE_DATABASE_URL,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID,
+  measurementId: import.meta.env.VITE_MEASURE_ID,
 };
 
 // Initialize Firebase

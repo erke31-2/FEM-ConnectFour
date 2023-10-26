@@ -1,8 +1,11 @@
 import { useState } from "react";
 import useJoinRoomMutation from "../hooks/useJoinRoomMutation";
+import { useLocation } from "react-router-dom";
 
 const JoinRoom = () => {
-  const [roomId, setRoomId] = useState("");
+  const location = useLocation();
+  const roomIdParams = new URLSearchParams(location.search).get("roomId");
+  const [roomId, setRoomId] = useState(roomIdParams || "");
   const [name, setName] = useState("");
   const { mutateAsync: joinRoom, isPending } = useJoinRoomMutation();
 
@@ -37,12 +40,8 @@ const JoinRoom = () => {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <button
-          className="bg-green-600 text-white py-2 rounded-md font-medium hover:opacity-80"
-          type="submit"
-          disabled={isPending}
-        >
-          Join Room
+        <button className="bg-green-600 text-white h-10 rounded-md font-medium hover:opacity-80 disabled:cursor-not-allowed disabled:hover:opacity-100" type="submit" disabled={isPending}>
+          {isPending ? <div className="w-5 h-5 rounded-full animate-spin border-2 border-b-primaryBg  mx-auto"/> : "Join Room"}
         </button>
       </form>
       <label htmlFor="roomId" className="text-sm font-medium text-sky-100">

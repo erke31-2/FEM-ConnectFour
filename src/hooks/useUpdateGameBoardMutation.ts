@@ -2,7 +2,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { checkForFullBoard, checkForWin } from "../helpers/main";
 import useGameStore from "../store/store";
 import { updateRealTimeData } from "../firebase/service";
-import useRealTimeQuery from "./useRealTimeQuery";
 import { PlayersInfo } from "../components/ScoreBoard";
 import { toast } from "sonner";
 
@@ -16,7 +15,7 @@ const useUpdateGameBoardMutation = () => {
   const roomId = useGameStore((state) => state.gameId);
   const gamePath = `rooms/${roomId}/game`;
   const playerInfoPath = `rooms/${roomId}/players`;
-  const { data: playersInfo } = useRealTimeQuery<PlayersInfo>(playerInfoPath);
+  const playersInfo = queryClient.getQueryData<PlayersInfo>([playerInfoPath]) 
   return useMutation<void, Error, useUpdateGameBoardMutationProps>({
     mutationFn: async ({ updatedBoard, player }) => {
       const isWinner = checkForWin(updatedBoard, player);
