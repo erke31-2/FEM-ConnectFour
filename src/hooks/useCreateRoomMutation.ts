@@ -16,6 +16,7 @@ const useCreateRoomMutation = () => {
       setCurrentPlayer({ id: 1, name: "Player 1" });
       setGameId(roomId);
       navigate("/play");
+      toast.success("Game room is ready! Invite your friend to play with.")
     },
     onError: (err) => {
         toast.error(err.message)

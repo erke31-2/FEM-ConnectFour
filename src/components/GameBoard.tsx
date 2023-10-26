@@ -54,33 +54,3 @@ const GameBoard: React.FC<{roomId: string}> = ({roomId}) => {
   );
 };
 export default GameBoard;
-
-
-// const isWinner = checkForWin(updatedBoard, player);
-// const isFullBoard = checkForFullBoard(updatedBoard)
-// let updatedValue;
-// if(isWinner){
-//   const key = player === 1 ? 1 : 2
-//   const winnerInfo = playersInfo?.[key]
-//   updatedValue  = {
-//     board: updatedBoard,
-//     turn: 0,
-//     winner: winnerInfo?.id
-//   } 
-//   const scorePath = `rooms/${roomId}/players/${player}/score`;
-//   updateRealTimeData({path: scorePath, updatedValue: winnerInfo!.score + 1})
-// }else if(isFullBoard && !isWinner){
-//   updatedValue = {
-//     board: updatedBoard,
-//     turn: 0,
-//     winner: 0
-//   }
-// }else{
-//   updatedValue = {
-//     board: updatedBoard,
-//     turn: player === 1 ? 2 : 1,
-//   }
-// }
-
-// queryClient.setQueryData([gamePath], updatedValue)
-// updateRealTimeData({path: gamePath, updatedValue })

@@ -62,11 +62,11 @@ export const joinRoom = async ({
   name: string;
 }) => {
   const roomExists = await checkRoomExists(roomId);
-  if (!roomExists) throw new Error(`Room with ID ${roomId} does not exist!`);
+  if (!roomExists) throw new Error(`Room with ID "${roomId}" does not exist!`);
 
   const roomFull = await checkRoomFull(roomId);
   if (roomFull)
-    throw new Error(`Room with Id ${roomId} is already full with players!`);
+    throw new Error(`Room with Id "${roomId}" is already full of players!`);
 
   const roomRef = ref(database, `rooms/${roomId}`);
   const updatedRoomData = {

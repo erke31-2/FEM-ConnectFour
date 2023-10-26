@@ -27,7 +27,7 @@ const JoinRoom = () => {
         />
           <input
           type="text"
-          placeholder="Enter Your Name (Optional)"
+          placeholder="Enter Your Name"
           className="py-2 px-4 rounded-md outline-none border border-primaryBg focus:outline-white"
           autoComplete="on"
           id="name"

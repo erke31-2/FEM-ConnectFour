@@ -25,7 +25,6 @@ const useUpdateGameBoardMutation = () => {
       if (isWinner) {
         const key = player === 1 ? 1 : 2;
         const winnerInfo = playersInfo?.[key];
-        const loserInfo = playersInfo?.[key === 1 ? 2 : 1]
         updatedValue = {
           board: updatedBoard,
           turn: 0,
@@ -35,8 +34,7 @@ const useUpdateGameBoardMutation = () => {
         updateRealTimeData({
           path: scorePath,
           updatedValue: winnerInfo!.score + 1,
-        });
-        toast.success(`You win this game. Now Score is ${winnerInfo!.score + 1} : ${loserInfo?.score}`)
+        }); 
       } else if (isFullBoard) {
         updatedValue = {
           board: updatedBoard,
