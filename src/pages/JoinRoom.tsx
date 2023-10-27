@@ -21,7 +21,7 @@ const JoinRoom = () => {
         <input
           type="text"
           placeholder="Enter a Room Id"
-          className="py-2 px-4 rounded-md outline-none border border-primaryBg focus:outline-white" 
+          className="py-2 px-4 rounded-md border border-white bg-transparent focus:outline-white text-white"   
           autoComplete="on"
           id="roomId"
           required
@@ -31,7 +31,7 @@ const JoinRoom = () => {
           <input
           type="text"
           placeholder="Enter Your Name"
-          className="py-2 px-4 rounded-md outline-none border border-primaryBg focus:outline-white"
+          className="py-2 px-4 rounded-md border border-white bg-transparent focus:outline-white text-white"  
           autoComplete="on"
           id="name"
           min={3}

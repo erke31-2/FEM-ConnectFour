@@ -17,7 +17,7 @@ const CreateRoom = () => {
         <input
           type="text"
           placeholder="Type a Room Name"
-          className="py-2 px-4 rounded-md outline-none border border-primaryBg focus:outline-white"
+          className="py-2 px-4 rounded-md border border-white bg-transparent focus:outline-white text-white"  
           autoComplete="on"
           id="roomName"
           min={4}
@@ -29,7 +29,7 @@ const CreateRoom = () => {
         <input
           type="text"
           placeholder="Enter Your Name"
-          className="py-2 px-4 rounded-md outline-none border border-primaryBg focus:outline-white" 
+          className="py-2 px-4 rounded-md border border-white bg-transparent focus:outline-white text-white"  
           autoComplete="on"
           id="name"
           min={3}

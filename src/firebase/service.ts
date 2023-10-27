@@ -93,6 +93,10 @@ export const checkRoomFull = async (roomId: string) => {
   return roomFullSnapShot.val() as boolean;
 };
 
+export const askForNewGame = ({path, playerId}: {path: string, playerId: number}) => {
+  updateRealTimeData({ path, updatedValue: playerId });
+};
+
 export const restartNewGame = (roomId: string) => {
   const gamePath = `rooms/${roomId}/game`;
   const resetGameData = {

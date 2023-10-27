@@ -21,7 +21,7 @@ const OverlayBlur = () => {
         </span>
         <div className="text-white flex flex-col items-end">
           <button className="w-fit text-xs px-2 py-1 font-bold" onClick={copyText}>
-            {hasCopied ? "Copied" : "Copy Link"}
+            {hasCopied ? "Copied!" : "Copy Link"}
           </button>
           <p className="bg-black p-3 rounded-md whitespace-nowrap">{link}</p>
         </div>
