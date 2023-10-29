@@ -25,7 +25,7 @@ The Connect 4 Online Real-Time Game project is a web-based multiplayer game wher
 ### Links
 
 - [Code](https://github.com/erke31-2/FEM-ConnectFour)
-- [Live Demo](https://connectfour.vercel.app/)
+- [Live Demo](https://connectfour-six.vercel.app)
 
 ## How to Play
 
