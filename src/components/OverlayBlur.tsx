@@ -3,7 +3,7 @@ import useGameStore from "../store/store";
 
 const OverlayBlur = () => {
   const roomId = useGameStore((state) => state.gameId);
-  const link = `http://localhost:3000/join-room?roomId=${roomId}`
+  const link = `https://connectfour.vercel.app/join-room?roomId=${roomId}`
   const [hasCopied, setIsCopied] = useState(false);
   const copyText = () => {
     navigator.clipboard.writeText(link).then(() => setIsCopied(true))
