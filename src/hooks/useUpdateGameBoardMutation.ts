@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { checkForFullBoard, checkForWin } from "../helpers/main";
-import useGameStore from "../store/store";
 import { updateRealTimeData } from "../firebase/service";
 import { PlayersInfo } from "../components/ScoreBoard";
 import { toast } from "sonner";
@@ -10,9 +9,8 @@ interface useUpdateGameBoardMutationProps {
   player: number;
 }
 
-const useUpdateGameBoardMutation = () => {
+const useUpdateGameBoardMutation = (roomId: string) => {
   const queryClient = useQueryClient();
-  const roomId = useGameStore((state) => state.gameId);
   const gamePath = `rooms/${roomId}/game`;
   const playerInfoPath = `rooms/${roomId}/players`;
   const playersInfo = queryClient.getQueryData<PlayersInfo>([playerInfoPath]) 

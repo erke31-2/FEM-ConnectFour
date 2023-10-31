@@ -52,11 +52,12 @@ The Connect 4 Online Real-Time Game project is a web-based multiplayer game wher
 
 ## Features
 
-- Real-time gameplay with immediate feedback.
+- Real-time game play with immediate feedback.
 - Interactive game board.
 - Player turn indicator.
 - Winning and draw detection.
 - User-friendly interface.
+- Saving and accessing recent games.
 
 
 ## My process

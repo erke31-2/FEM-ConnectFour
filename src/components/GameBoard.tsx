@@ -1,20 +1,34 @@
-import Token from "./Token";
+import { useQueryClient } from "@tanstack/react-query";
 import useRealTimeQuery from "../hooks/useRealTimeQuery";
 import useGameStore from "../store/store";
-import WinnerAndTurn from "./WinnerAndTurn";
 import useUpdateGameBoardMutation from "../hooks/useUpdateGameBoardMutation";
+import ShowWinner from "./ShowWinner";
+import ShowTurn from "./ShowTurn";
+import Token from "./Token";
+import type { PlayersInfo } from "./ScoreBoard";
+import FullScreenLoading from "./FullScreenLoading";
 
-export type Game = {
+export type GameInfo = {
   board: Array<number[]>,
   turn: number,
   winner?: number
 }
 
 const GameBoard: React.FC<{roomId: string}> = ({roomId}) => {
-  const {mutate: updateGameBoard, isPending} = useUpdateGameBoardMutation()
-  const currentPlayer = useGameStore(state => state.currentPlayer)
+  const queryClient = useQueryClient();
+
+  const {mutate: updateGameBoard, isPending} = useUpdateGameBoardMutation(roomId);
+  //*game current player data
+  const getCurrentPlayerFromGame = useGameStore(state => state.getCurrentPlayerFromGame);
+  const currentPlayer = getCurrentPlayerFromGame(roomId);
+  //*game data
   const gamePath = `rooms/${roomId}/game`
-  const { data } = useRealTimeQuery<Game>(gamePath);
+  const { data, isLoading } = useRealTimeQuery<GameInfo>(gamePath);
+
+  //*game players
+  const playerInfoPath = `rooms/${roomId}/players`;
+  const playersInfo = queryClient.getQueryData<PlayersInfo>([playerInfoPath]) 
+
   const updateBoard = (colIndex: number, player: number) => {
     if(data && data.turn === currentPlayer?.id && !isPending){
       const updatedBoard = [...data.board];
@@ -30,8 +44,12 @@ const GameBoard: React.FC<{roomId: string}> = ({roomId}) => {
     return
   };
 
+  if(isLoading){
+    return <FullScreenLoading customClass="grid-in-game"/>
+  }
+
+
   return (
-    <>
       <div className="grid-in-game w-full mx-auto bg-white grid grid-cols-7 gap-2 px-2 pt-2 pb-10 rounded-2xl border-[3px] border-black shadow-boardShadow relative mb-16 mt-6">
         {data?.board.map((row, rowIndex) =>
           row.map((slot, colIndex) =>
@@ -48,9 +66,11 @@ const GameBoard: React.FC<{roomId: string}> = ({roomId}) => {
             )
           )
         )}
-      <WinnerAndTurn winner={data?.winner} turn={data?.turn}/>
+        {data?.winner ? 
+          <ShowWinner winner={data.winner} currentPlayer={currentPlayer} playersInfo={playersInfo} roomId={roomId}/> 
+          : 
+          <ShowTurn turn={data?.turn} currentPlayer={currentPlayer} />}
       </div>
-    </>
   );
 };
 export default GameBoard;

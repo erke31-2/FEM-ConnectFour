@@ -2,6 +2,7 @@ import { DataSnapshot, get, onValue, ref, set, update } from "firebase/database"
 import { initialBoard } from "../constants/constants";
 import { generateGameId } from "../helpers/main";
 import { database } from "./config";
+import { Game } from "../store/store";
 
 
 export interface RealTimeSubscribeParams {
@@ -18,6 +19,7 @@ export interface JoinRoomParams {
   name: string;
 }
 
+
 export const subscribeRealTimeData = ({ path, callback }: RealTimeSubscribeParams) => {
   const databaseRef = ref(database, path);
   const cb = (snapshot: DataSnapshot) => {
@@ -27,7 +29,7 @@ export const subscribeRealTimeData = ({ path, callback }: RealTimeSubscribeParam
   return unsubscribe;
 };
 
-export const createRoom = async ({ roomName, name }: CreateRoomParams) => {
+export const createRoom = async ({ roomName, name }: CreateRoomParams): Promise<Game> => {
   const roomId = generateGameId();
   const newRoomRef = ref(database, `rooms/${roomId}`);
   const roomData = {
@@ -51,16 +53,16 @@ export const createRoom = async ({ roomName, name }: CreateRoomParams) => {
   await set(newRoomRef, roomData).catch((err) => {
     if (err instanceof Error) throw new Error("Failed to Create Room!");
   });
-  return roomId;
+  return {
+    gameId: roomId,
+    player: {
+      id: 1,
+      name
+    }
+  };
 };
 
-export const joinRoom = async ({
-  roomId,
-  name,
-}: {
-  roomId: string;
-  name: string;
-}) => {
+export const joinRoom = async ({ roomId, name }: JoinRoomParams): Promise<Game> => {
   const roomExists = await checkRoomExists(roomId);
   if (!roomExists) throw new Error(`Room with ID "${roomId}" does not exist!`);
 
@@ -78,7 +80,13 @@ export const joinRoom = async ({
     roomFull: true,
   };
   await update(roomRef, updatedRoomData);
-  return roomId;
+  return {
+    gameId: roomId,
+    player: {
+      id: 2,
+      name
+    }
+  };
 };
 
 export const checkRoomExists = async (roomId: string) => {

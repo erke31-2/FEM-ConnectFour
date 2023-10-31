@@ -1,31 +1,33 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { checkRoomExists } from "../firebase/service";
-import useGameStore from "../store/store";
 import FullScreenLoading from "../components/FullScreenLoading";
 import Game from "../components/Game";
+import { toast } from "sonner";
 
 const GamePage = () => {
-  const roomId = useGameStore(state => state.gameId);
+  const { roomId } = useParams();
   //?check room exist with that id or not
-  const { data: validRoomId, isLoading } = useQuery({
+  const { data: isValidRoomId, isLoading } = useQuery({
     queryKey: ["checkRoomIdValid", roomId],
-    queryFn: () => checkRoomExists(roomId ?? "")
-  })
- 
-  if(isLoading){
-    return <FullScreenLoading />
+    queryFn: () => checkRoomExists(roomId ?? ""),
+  });
+
+  if (isLoading) {
+    return <FullScreenLoading />;
+  }
+  
+  if (!isValidRoomId) {
+    toast.error(`Game Room doesn't exist with this id (${roomId})`);
+    return <Navigate to={"/"} />;
   }
 
-  if(roomId && validRoomId){
+  if (roomId && isValidRoomId) {
     return (
       <main className="w-full px-6 mb-16">
-        <Game roomId={roomId}/>
+        <Game roomId={roomId} />
       </main>
     );
   }
-
-  return <Navigate to={"/"}/>
- 
 };
 export default GamePage;

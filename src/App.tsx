@@ -4,6 +4,7 @@ import CreateRoom from "./pages/CreateRoom";
 import JoinRoom from "./pages/JoinRoom";
 import GamePage from "./pages/GamePage";
 import RootLayout from "./layouts/RootLayout";
+import ErrorPage from "./pages/ErrorPage";
 
 const router = createBrowserRouter([
   {
@@ -12,7 +13,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />
+        element: <Home />,
       },
       {
         path: "/create-room",
@@ -23,12 +24,15 @@ const router = createBrowserRouter([
         element: <JoinRoom />,
       },
       {
-        path: "/play",
+        path: "/play/:roomId",  
         element: <GamePage />,
       },
-    ] 
+      {
+        path: "*",
+        element: <ErrorPage />,
+      },
+    ],
   },
- 
 ]);
 
 const App = () => {

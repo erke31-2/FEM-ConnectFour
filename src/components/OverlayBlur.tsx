@@ -1,8 +1,6 @@
 import { useState } from "react";
-import useGameStore from "../store/store";
 
-const OverlayBlur = () => {
-  const roomId = useGameStore((state) => state.gameId);
+const OverlayBlur = ({roomId}: {roomId: string}) => {
   const link = `https://connectfour-six.vercel.app/join-room?roomId=${roomId}`;
   const [hasCopied, setIsCopied] = useState(false);
   const copyText = () => {

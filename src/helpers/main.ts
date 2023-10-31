@@ -70,7 +70,6 @@ export const checkForFullBoard = (board: Array<number[]>) => {
 }
 
 
-
 export const generateGameId = () => {
   const id = Math.random().toString(36).substring(2, 8);
   return id
